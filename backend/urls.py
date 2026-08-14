@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/', include('apps.api_testing.urls')),
     path('api/core/', include('apps.core.urls')),
     path('api/data-factory/', include('apps.data_factory.urls')),
+    path('api/llm-judge/', include('apps.llm_judge.urls')),
 ]
 
 if settings.ANALYTICS_ENABLED:

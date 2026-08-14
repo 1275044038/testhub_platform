@@ -70,6 +70,7 @@ LOCAL_APPS = [
     'apps.app_automation.apps.AppAutomationConfig',  # APP自动化测试
     'apps.core',
     'apps.data_factory',
+    'apps.llm_judge',
 ]
 
 if ANALYTICS_ENABLED or REGISTRATION_STATS_ENABLED:
@@ -498,3 +499,19 @@ SIMPLEUI_ICON = {
 
 # 开发环境，暂时禁用迁移历史检查
 # SILENCED_SYSTEM_CHECKS = ['django.db.migrations.InconsistentMigrationHistory']
+
+# ==================== LLM 智能评分器配置 ====================
+# 评分器 OpenAI 兼容配置（与平台既有 LLM 配置共用）
+OPENAI_API_KEY = config('OPENAI_API_KEY', default='')
+OPENAI_BASE_URL = config('OPENAI_BASE_URL', default=None)
+# Judge 评分模型
+JUDGE_MODEL = config('JUDGE_MODEL', default='deepseek-chat')
+JUDGE_MOCK = config('JUDGE_MOCK', default=False, cast=bool)
+JUDGE_N_RUNS = config('JUDGE_N_RUNS', default=3, cast=int)
+JUDGE_CACHE_TIMEOUT = config('JUDGE_CACHE_TIMEOUT', default=3600, cast=int)
+JUDGE_RULE_LLM_FALLBACK = config('JUDGE_RULE_LLM_FALLBACK', default=False, cast=bool)
+# Rubric / KB 目录（放 MEDIA_ROOT 下）
+JUDGE_RUBRIC_DIR = os.path.join(MEDIA_ROOT, 'judge_rubrics')
+JUDGE_KB_DIR = os.path.join(MEDIA_ROOT, 'judge_kb')
+os.makedirs(JUDGE_RUBRIC_DIR, exist_ok=True)
+os.makedirs(JUDGE_KB_DIR, exist_ok=True)

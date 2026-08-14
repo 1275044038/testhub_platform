@@ -12,7 +12,8 @@ export default {
     defects: 'Bug Management',
     appAutomation: 'APP Automation',
     aiIntelligentMode: 'AI Intelligent Mode',
-    configuration: 'Configuration Center'
+    configuration: 'Configuration Center',
+    llmJudge: 'Smart Judge'
   },
   menu: {
     // AI Test Case Generation
@@ -69,6 +70,14 @@ export default {
     uiEnvConfig: 'UI Environment Configuration',
     aiModeConfig: 'AI Mode Configuration',
     scheduledTaskConfig: 'Scheduled Task Configuration',
-    difyConfig: 'Dify Configuration'
+    difyConfig: 'Dify Configuration',
+
+    // Smart Judge
+    judgeDashboard: 'Judge Dashboard',
+    judgeSingle: 'Single Judge',
+    judgeBatch: 'Batch Judge',
+    judgeHistory: 'Judge Records',
+    judgeRubrics: 'Rubrics',
+    judgeKnowledgeBase: 'Knowledge Base'
   }
 }

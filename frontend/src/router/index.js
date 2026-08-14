@@ -442,6 +442,49 @@ const routes = [
             }
         ]
     },
+    // 智能评分器路由
+    {
+        path: '/llm-judge',
+        component: Layout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '',
+                redirect: 'dashboard'
+            },
+            {
+                path: 'dashboard',
+                name: 'JudgeDashboard',
+                component: () => import('@/views/llm-judge/Dashboard.vue')
+            },
+            {
+                path: 'single',
+                name: 'JudgeSingle',
+                component: () => import('@/views/llm-judge/SingleJudge.vue')
+            },
+            {
+                path: 'batch',
+                name: 'JudgeBatch',
+                component: () => import('@/views/llm-judge/BatchJudge.vue')
+            },
+            {
+                path: 'history',
+                name: 'JudgeHistory',
+                component: () => import('@/views/llm-judge/HistoryList.vue')
+            },
+            {
+                path: 'rubrics',
+                name: 'JudgeRubrics',
+                component: () => import('@/views/llm-judge/RubricList.vue')
+            },
+            {
+                path: 'knowledge',
+                name: 'JudgeKnowledgeBase',
+                component: () => import('@/views/llm-judge/KnowledgeBase.vue')
+
+            }
+        ]
+    },
     // APP自动化测试路由
     {
         path: '/app-automation',

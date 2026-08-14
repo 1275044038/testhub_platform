@@ -145,6 +145,15 @@
           <h3>{{ $t('home.configCenter') }}</h3>
           <p>{{ $t('home.configCenterDesc') }}</p>
         </div>
+
+        <!-- 智能评分器 -->
+        <div class="nav-card" @click="handleNavigate('judge')" role="button" tabindex="0">
+          <div class="card-icon judge-icon">
+            <el-icon><Select /></el-icon>
+          </div>
+          <h3>{{ $t('llmJudge.title') }}</h3>
+          <p>{{ $t('llmJudge.subtitle') }}</p>
+        </div>
       </div>
     </div>
 
@@ -180,7 +189,7 @@ import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores/app'
 import { track } from '@/utils/tracker'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { MagicStick, Link, Monitor, DataLine, Cpu, Setting, ChatDotRound, UserFilled, ArrowDown, Cellphone, Tickets } from '@element-plus/icons-vue'
+import { MagicStick, Link, Monitor, DataLine, Cpu, Setting, ChatDotRound, UserFilled, ArrowDown, Cellphone, Tickets, Select } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -272,6 +281,7 @@ const handleNavigate = (type) => {
     'ai-intelligent': '/ai-intelligent-mode/testing',
     'assistant': '/ai-generation/assistant',
     'config': '/configuration/ai-model',
+    'judge': '/llm-judge/dashboard',
     'data': '/data-factory'
   }
 
@@ -531,6 +541,11 @@ const handleNavigate = (type) => {
   &.config-icon {
     background: #e6fffb;
     color: #13c2c2;
+  }
+
+  &.judge-icon {
+    background: #f0f5ff;
+    color: #1d39c4;
   }
 
   &.assistant-icon {

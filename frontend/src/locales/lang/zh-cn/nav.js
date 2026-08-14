@@ -12,7 +12,8 @@ export default {
     defects: 'Bug缺陷管理',
     appAutomation: 'APP自动化测试',
     aiIntelligentMode: 'AI 智能模式',
-    configuration: '配置中心'
+    configuration: '配置中心',
+    llmJudge: '智能评分器'
   },
   menu: {
     // AI用例生成
@@ -69,6 +70,14 @@ export default {
     uiEnvConfig: 'UI环境配置',
     aiModeConfig: 'AI智能模式配置',
     scheduledTaskConfig: '定时任务配置',
-    difyConfig: 'AI评测师配置'
+    difyConfig: 'AI评测师配置',
+
+    // 智能评分器
+    judgeDashboard: '评分看板',
+    judgeSingle: '单条评分',
+    judgeBatch: '批量评分',
+    judgeHistory: '评分记录',
+    judgeRubrics: '评分标准',
+    judgeKnowledgeBase: '知识库维护'
   }
 }

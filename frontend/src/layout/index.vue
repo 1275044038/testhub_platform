@@ -272,6 +272,33 @@
               <span>{{ $t('menu.difyConfig') }}</span>
             </el-menu-item>
           </template>
+          <!-- 智能评分器模块菜单 -->
+          <template v-else-if="currentModule === 'llm-judge'">
+            <el-menu-item index="/llm-judge/dashboard">
+              <el-icon><Odometer /></el-icon>
+              <span>{{ $t('menu.judgeDashboard') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/llm-judge/single">
+              <el-icon><Edit /></el-icon>
+              <span>{{ $t('menu.judgeSingle') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/llm-judge/batch">
+              <el-icon><DocumentCopy /></el-icon>
+              <span>{{ $t('menu.judgeBatch') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/llm-judge/history">
+              <el-icon><Timer /></el-icon>
+              <span>{{ $t('menu.judgeHistory') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/llm-judge/knowledge">
+              <el-icon><Collection /></el-icon>
+              <span>{{ $t('menu.judgeKnowledgeBase') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/llm-judge/rubrics">
+              <el-icon><Setting /></el-icon>
+              <span>{{ $t('menu.judgeRubrics') }}</span>
+            </el-menu-item>
+          </template>
         </el-menu>
       </el-aside>
 
@@ -379,6 +406,7 @@ const currentModule = computed(() => {
   if (route.path.startsWith('/app-automation')) return 'app-automation'
   if (route.path.startsWith('/ai-intelligent-mode')) return 'ai-intelligent-mode'
   if (route.path.startsWith('/configuration')) return 'configuration'
+  if (route.path.startsWith('/llm-judge')) return 'llm-judge'
   return ''
 })
 
@@ -390,7 +418,8 @@ const moduleName = computed(() => {
     'defects': t('modules.defects'),
     'app-automation': t('modules.appAutomation'),
     'ai-intelligent-mode': t('modules.aiIntelligentMode'),
-    'configuration': t('modules.configuration')
+    'configuration': t('modules.configuration'),
+    'llm-judge': t('modules.llmJudge')
   }
   return map[currentModule.value] || ''
 })
@@ -468,6 +497,14 @@ const breadcrumbTitle = computed(() => {
     '/configuration/scheduled-task': t('menu.scheduledTaskConfig'),
     '/configuration/dify': t('menu.difyConfig'),
     
+    // 智能评分器
+    '/llm-judge/dashboard': t('menu.judgeDashboard'),
+    '/llm-judge/single': t('menu.judgeSingle'),
+    '/llm-judge/batch': t('menu.judgeBatch'),
+    '/llm-judge/history': t('menu.judgeHistory'),
+    '/llm-judge/rubrics': t('menu.judgeRubrics'),
+    '/llm-judge/knowledge': t('menu.judgeKnowledgeBase'),
+
     '/profile': t('nav.profile')
   }
   return routeMap[route.path] || route.meta.title || ''
