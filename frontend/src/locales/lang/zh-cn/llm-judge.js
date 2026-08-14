@@ -159,6 +159,7 @@ export default {
     criticalSuccessRate: '关键成功率',
     viewRecords: '查看明细',
     recordsTitle: '批次评分明细',
+    recordDetailTitle: '单条执行明细',
     noBatch: '暂无批次',
     batchHistory: '批次历史',
     errorTip: '批次提交失败',

@@ -253,6 +253,11 @@
         <el-table-column :label="$t('llmJudge.common.latency')" width="90">
           <template #default="{ row }">{{ row.latency_ms ? row.latency_ms + 'ms' : '—' }}</template>
         </el-table-column>
+        <el-table-column :label="$t('llmJudge.common.operation')" width="100" fixed="right">
+          <template #default="{ row }">
+            <el-button link type="primary" size="small" @click="showRecordDetail(row)">明细</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
 
@@ -299,6 +304,131 @@
         </el-table-column>
       </el-table>
     </el-card>
+
+    <!-- 单条执行明细 Drawer -->
+    <el-drawer v-model="recordDetailVisible" :title="$t('llmJudge.batch.recordDetailTitle')" size="640px" direction="rtl">
+      <div v-if="currentRecord" class="record-detail">
+        <el-descriptions :column="2" border size="small" title="基础信息">
+          <el-descriptions-item label="请求ID" :span="2">
+            <code class="mono">{{ currentRecord.request_id || '-' }}</code>
+          </el-descriptions-item>
+          <el-descriptions-item label="评分标准">
+            {{ currentRecord.rubric_name || '-' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="模型">
+            {{ currentRecord.judge_model || '-' }}
+            <el-tag v-if="currentRecord.cache_hit" size="small" type="success" effect="plain" style="margin-left:6px;">缓存命中</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="耗时">
+            {{ currentRecord.latency_ms ? currentRecord.latency_ms + ' ms' : '-' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="自动匹配GT">
+            <el-tag v-if="currentRecord.auto_gt" type="success" size="small">是</el-tag>
+            <span v-else>否</span>
+          </el-descriptions-item>
+          <el-descriptions-item label="门禁分区">
+            <el-tag :type="zoneTagType(currentRecord.gate_zone)" size="small" effect="plain">
+              {{ zoneText(currentRecord.gate_zone) }}
+            </el-tag>
+            <el-tag v-if="currentRecord.blocked" size="small" type="danger" effect="plain" style="margin-left:6px;">拦截</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="评分拆分" :span="2">
+            <div class="score-split">
+              <div><span>规则分</span><b>{{ fmtNum(currentRecord.rule_score) }}</b></div>
+              <div><span>LLM分</span><b>{{ fmtNum(currentRecord.llm_score) }}</b></div>
+              <div><span>最终分</span><b class="score-num" :class="scoreClass(currentRecord.final_score)">{{ fmtNum(currentRecord.final_score) }}</b></div>
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item label="问题" :span="2">
+            <div class="block-text">{{ currentRecord.question }}</div>
+          </el-descriptions-item>
+          <el-descriptions-item label="答案" :span="2">
+            <div class="block-text">{{ currentRecord.answer }}</div>
+          </el-descriptions-item>
+          <el-descriptions-item label="参考答案(GroundTruth)" :span="2">
+            <template v-if="currentRecord.ground_truth">
+              <div v-if="typeof currentRecord.ground_truth === 'string'" class="block-text">{{ currentRecord.ground_truth }}</div>
+              <div v-else>
+                <div v-if="currentRecord.ground_truth.text" class="block-text">{{ currentRecord.ground_truth.text }}</div>
+                <el-table v-if="Array.isArray(currentRecord.ground_truth.values)" :data="currentRecord.ground_truth.values" size="small" border>
+                  <el-table-column prop="label" label="指标" min-width="200" show-overflow-tooltip />
+                  <el-table-column prop="value" label="值" width="120" />
+                  <el-table-column prop="unit" label="单位" width="90" />
+                  <el-table-column prop="tolerance" label="容差" width="90" />
+                </el-table>
+              </div>
+            </template>
+            <span v-else class="muted">（无）</span>
+          </el-descriptions-item>
+        </el-descriptions>
+
+        <div v-if="currentRecord.verdict_reasoning" class="detail-block">
+          <div class="detail-title">LLM 评判理由 (CoT)</div>
+          <div class="block-text reasoning">{{ currentRecord.verdict_reasoning }}</div>
+        </div>
+
+        <div v-if="currentRecord.verdict_dimensions && currentRecord.verdict_dimensions.length" class="detail-block">
+          <div class="detail-title">逐维度评分</div>
+          <el-table :data="currentRecord.verdict_dimensions" size="small" border>
+            <el-table-column prop="id" label="维度ID" width="120" />
+            <el-table-column prop="name" label="维度名" width="140" show-overflow-tooltip>
+              <template #default="{ row }">{{ row.name || row.id }}</template>
+            </el-table-column>
+            <el-table-column prop="score" label="得分" width="90">
+              <template #default="{ row }">
+                <span :class="['score-num', scoreClass(normDim(row.score))]">{{ row.score }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="weight" label="权重" width="80">
+              <template #default="{ row }">{{ row.weight != null ? row.weight : '-' }}</template>
+            </el-table-column>
+            <el-table-column prop="reasoning" label="维度理由" show-overflow-tooltip>
+              <template #default="{ row }">{{ row.reasoning || '-' }}</template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+        <div v-if="currentRecord.rule_findings && currentRecord.rule_findings.length" class="detail-block">
+          <div class="detail-title">规则引擎命中</div>
+          <el-table :data="currentRecord.rule_findings" size="small" border>
+            <el-table-column prop="rule" label="规则" width="140" show-overflow-tooltip />
+            <el-table-column label="严重度" width="100">
+              <template #default="{ row }">
+                <el-tag :type="row.severity === 'critical' ? 'danger' : (row.severity === 'warn' ? 'warning' : 'info')" size="small">
+                  {{ row.severity === 'critical' ? '严重/否决' : (row.severity === 'warn' ? '警告' : '提示') }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="message" label="命中描述" show-overflow-tooltip />
+            <el-table-column label="详细" width="140">
+              <template #default="{ row }">
+                <span v-if="row.detail && typeof row.detail === 'object'">
+                  {{ JSON.stringify(row.detail).slice(0,60) }}{{ JSON.stringify(row.detail).length > 60 ? '…' : '' }}
+                </span>
+                <span v-else>{{ row.detail || '-' }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+        <div v-if="currentRecord.vetoed && currentRecord.veto_reasons && currentRecord.veto_reasons.length" class="detail-block">
+          <div class="detail-title">否决原因</div>
+          <ul class="veto-list">
+            <li v-for="(r,i) in currentRecord.veto_reasons" :key="i">{{ r }}</li>
+          </ul>
+        </div>
+
+        <div v-if="currentRecord.error_message" class="detail-block">
+          <div class="detail-title text-danger">错误信息</div>
+          <div class="block-text err-text">{{ currentRecord.error_message }}</div>
+        </div>
+
+        <div class="detail-meta">
+          <span>创建时间：{{ fmtTime(currentRecord.created_at) }}</span>
+          <span v-if="currentRecord.batch_id" style="margin-left:16px;">批次ID：#{{ currentRecord.batch_id }}</span>
+        </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -318,6 +448,8 @@ const rubrics = ref([])
 const currentBatch = ref(null)
 const records = ref([])
 const batchHistory = ref([])
+const recordDetailVisible = ref(false)
+const currentRecord = ref(null)
 let pollTimer = null
 
 const form = reactive({
@@ -516,6 +648,17 @@ const handleResume = async (row) => {
   }
 }
 
+const showRecordDetail = (row) => {
+  currentRecord.value = { ...row }
+  recordDetailVisible.value = true
+}
+// LLM 维度分是 1-5（judge_engine 输出），前端按 5→100 线性映射用于 scoreClass 颜色
+const normDim = (s) => {
+  const n = Number(s)
+  if (isNaN(n)) return 0
+  return Math.max(0, Math.min(100, (n - 1) / 4 * 100))
+}
+
 const handleClear = () => {
   form.name = ''
   form.rubric = null
@@ -644,5 +787,34 @@ onUnmounted(() => { stopPolling() })
     margin-bottom: 8px;
     font-weight: 600; color: #303133;
   }
+}
+
+.record-detail {
+  padding: 0 4px;
+  .detail-block { margin-top: 18px; }
+  .detail-title {
+    font-weight: 600; color: #303133; margin-bottom: 8px; font-size: 14px;
+    &.text-danger { color: #f56c6c; }
+  }
+  .block-text {
+    white-space: pre-wrap; word-break: break-word; line-height: 1.6;
+    background: #fafbfc; border: 1px solid #ebeef5; border-radius: 6px;
+    padding: 10px 12px; color: #303133;
+    &.reasoning { background: #f5f9ff; border-color: #d9ecff; color: #1b3d6b; }
+    &.err-text { background: #fef0f0; border-color: #fde2e2; color: #a80011; }
+  }
+  .score-split {
+    display: flex; gap: 24px; align-items: center;
+    div { display: flex; flex-direction: column; align-items: center; gap: 4px;
+      span { color: #909399; font-size: 12px; }
+      b { font-size: 18px; }
+    }
+  }
+  .veto-list { margin: 0; padding-left: 20px;
+    li { color: #a80011; line-height: 1.8; }
+  }
+  .detail-meta { margin-top: 20px; color: #909399; font-size: 12px; text-align: right; }
+  .muted { color: #909399; }
+  .mono { font-family: Menlo, Consolas, monospace; background: #f5f7fa; padding: 2px 6px; border-radius: 4px; }
 }
 </style>

@@ -55,6 +55,18 @@
         </div>
       </template>
 
+      <!-- 元信息 -->
+      <div class="meta-line">
+        <span class="meta-item" v-if="result.request_id"><b>请求ID：</b><code>{{ result.request_id }}</code></span>
+        <span class="meta-item"><b>自动匹配GT：</b>
+          <el-tag size="small" :type="result.auto_gt ? 'success' : 'info'">{{ result.auto_gt ? '是' : '否' }}</el-tag>
+        </span>
+        <span class="meta-item" v-if="result.ground_truth"><b>GT：</b>
+          <span class="gt-preview">{{ formatGt(result.ground_truth) }}</span>
+        </span>
+        <span class="meta-item" v-if="result.created_at"><b>时间：</b>{{ fmtTime(result.created_at) }}</span>
+      </div>
+
       <!-- 核心分数 -->
       <div class="score-board">
         <div class="final-score">
@@ -128,6 +140,20 @@
       <div v-if="llmReasoning" class="reasoning-block">
         <h4 class="block-title">{{ $t('llmJudge.single.llmReasoning') }}</h4>
         <div class="reasoning-text">{{ llmReasoning }}</div>
+      </div>
+
+      <!-- 否决原因 -->
+      <div v-if="result.vetoed && vetoReasons.length" class="findings-block">
+        <h4 class="block-title">否决原因</h4>
+        <ul class="veto-list">
+          <li v-for="(r,i) in vetoReasons" :key="i">{{ r }}</li>
+        </ul>
+      </div>
+
+      <!-- 错误信息 -->
+      <div v-if="result.error_message" class="findings-block">
+        <h4 class="block-title">错误信息</h4>
+        <div class="err-text">{{ result.error_message }}</div>
       </div>
 
       <div class="submit-another">
@@ -208,6 +234,19 @@ const dimScores = computed(() => result.value?.llm_verdict?.dimensions || [])
 const llmReasoning = computed(() => result.value?.llm_verdict?.reasoning || '')
 
 const fmtNum = (v) => (v === null || v === undefined) ? '—' : Number(v).toFixed(1)
+const fmtTime = (v) => v ? new Date(v).toLocaleString('zh-CN', { hour12: false }) : '—'
+const vetoReasons = computed(() => result.value?.veto_reasons || [])
+const formatGt = (gt) => {
+  if (!gt) return '—'
+  if (typeof gt === 'string') return gt.length > 60 ? gt.slice(0,60)+'…' : gt
+  if (typeof gt === 'object') {
+    const parts = []
+    if (gt.text) parts.push(String(gt.text).slice(0,60))
+    if (Array.isArray(gt.values)) parts.push(`${gt.values.length}项指标`)
+    return parts.join(' | ') || 'JSON'
+  }
+  return String(gt)
+}
 const labelText = (k) => k ? t(`llmJudge.labels.${k}`) : '—'
 const zoneText = (k) => k ? t(`llmJudge.gate.${k}`) : '—'
 const labelTagType = (k) => ({ excellent: 'success', acceptable: '', needs_improvement: 'warning', critical_failure: 'danger' }[k] || 'info')
@@ -365,4 +404,24 @@ onMounted(() => { loadRubrics() })
   white-space: pre-wrap;
 }
 .submit-another { margin-top: 20px; text-align: center; }
+.meta-line {
+  display: flex; flex-wrap: wrap; gap: 10px 20px;
+  padding: 10px 14px; background: #fafbfc; border: 1px dashed #ebeef5; border-radius: 6px;
+  margin-bottom: 16px; font-size: 12px; color: #606266;
+  .meta-item { display: inline-flex; align-items: center; gap: 4px;
+    b { font-weight: 500; color: #909399; }
+    code { background: #f5f7fa; padding: 2px 6px; border-radius: 4px;
+           font-family: Menlo, Consolas, monospace; color: #1b3d6b; }
+  }
+  .gt-preview { max-width: 400px; display: inline-block; overflow: hidden;
+                text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
+}
+.veto-list { margin: 0; padding-left: 20px;
+  li { color: #a80011; line-height: 1.8; font-size: 13px; }
+}
+.err-text {
+  padding: 12px 14px; background: #fef0f0; border: 1px solid #fde2e2;
+  border-radius: 6px; color: #a80011; white-space: pre-wrap;
+  word-break: break-word; font-size: 13px; line-height: 1.6;
+}
 </style>
