@@ -53,6 +53,21 @@ REGISTRATION_STATS_VISIBLE_USERNAMES = config(
 APP_USE_HTTPS = config('APP_USE_HTTPS', default=not DEBUG, cast=bool)
 TRUST_PROXY_SSL_HEADER = config('TRUST_PROXY_SSL_HEADER', default=APP_USE_HTTPS, cast=bool)
 
+# MCP Server 总开关（协议端点 /api/mcp/，需 Daphne/ASGI 部署）
+MCP_ENABLED = config('MCP_ENABLED', default=True, cast=bool)
+# MCP 危险操作人工审批模式：开启后 confirm_* 不再直接执行，
+# 转为等待 MCP 控制台人工批准（Agent 轮询 get_approval_status 取结果）
+MCP_HUMAN_APPROVAL = config('MCP_HUMAN_APPROVAL', default=False, cast=bool)
+# MCP 协议端点 Host 白名单追加项（逗号分隔）：SDK 的 DNS Rebinding 防护
+MCP_ALLOWED_HOSTS = config('MCP_ALLOWED_HOSTS', default='')
+
+# ---------- 监控中心（monitor）全局默认 ----------
+# 自动监测持续 DOWN 时的重提醒周期、手动检测的冷却，均可在 .env 调整基线
+MONITOR_DEFAULT_ALERT_REPEAT_INTERVAL = config(
+    'MONITOR_DEFAULT_ALERT_REPEAT_INTERVAL', default=30, cast=int)
+MONITOR_DEFAULT_MANUAL_ALERT_COOLDOWN = config(
+    'MONITOR_DEFAULT_MANUAL_ALERT_COOLDOWN', default=5, cast=int)
+
 LOCAL_APPS = [
     'apps.users',
     'apps.projects',
@@ -71,6 +86,9 @@ LOCAL_APPS = [
     'apps.core',
     'apps.data_factory',
     'apps.llm_judge',
+    'apps.monitor',  # 监控中心
+    'apps.perf_testing.apps.PerfTestingConfig',  # 性能测试
+    'apps.mcp.apps.McpConfig',  # MCP Server（外部 Agent 驱动）
 ]
 
 if ANALYTICS_ENABLED or REGISTRATION_STATS_ENABLED:
@@ -515,3 +533,22 @@ JUDGE_RUBRIC_DIR = os.path.join(MEDIA_ROOT, 'judge_rubrics')
 JUDGE_KB_DIR = os.path.join(MEDIA_ROOT, 'judge_kb')
 os.makedirs(JUDGE_RUBRIC_DIR, exist_ok=True)
 os.makedirs(JUDGE_KB_DIR, exist_ok=True)
+
+# ==================== 性能测试模块配置 ====================
+# 容量护栏：超过阈值时预检拦截，避免压力机自身成为瓶颈导致数据失真
+PERF_MAX_CONCURRENCY = config('PERF_MAX_CONCURRENCY', default=1000, cast=int)
+PERF_MAX_TARGET_RPS = config('PERF_MAX_TARGET_RPS', default=5000, cast=int)
+PERF_MAX_DURATION = config('PERF_MAX_DURATION', default=7200, cast=int)  # 单次压测最长 2 小时
+PERF_MAX_CONCURRENT_EXECUTIONS = config('PERF_MAX_CONCURRENT_EXECUTIONS', default=2, cast=int)
+
+# 生产环境黑名单：base_url 命中则预检直接拦截，逗号分隔（支持后缀匹配）
+PERF_FORBIDDEN_HOSTS = [
+    h.strip() for h in config('PERF_FORBIDDEN_HOSTS', default='').split(',') if h.strip()
+]
+
+# 数据保留策略
+PERF_RETENTION_DAYS = config('PERF_RETENTION_DAYS', default=90, cast=int)        # 执行记录
+PERF_ARTIFACT_RETENTION_DAYS = config('PERF_ARTIFACT_RETENTION_DAYS', default=30, cast=int)  # 产物文件
+
+# 压力机自监控告警阈值
+PERF_LOAD_GEN_CPU_WARN = config('PERF_LOAD_GEN_CPU_WARN', default=85.0, cast=float)
