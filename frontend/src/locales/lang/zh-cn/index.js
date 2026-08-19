@@ -16,6 +16,7 @@ import configurationModule from './configuration.js'
 import assistantModule from './assistant.js'
 import dataFactoryModule from './data-factory.js'
 import notificationModule from './notification.js'
+import llmJudgeModule from './llm-judge.js'
 
 export default {
   // 模块化导出
@@ -73,6 +74,9 @@ export default {
 
   // 通知模块
   notification: notificationModule,
+
+  // 智能评分器模块
+  llmJudge: llmJudgeModule,
 
   // Element Plus 语言包
   ...elementZhCn
