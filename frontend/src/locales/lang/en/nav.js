@@ -12,7 +12,12 @@ export default {
     defects: 'Bug Management',
     appAutomation: 'APP Automation',
     aiIntelligentMode: 'AI Intelligent Mode',
-    configuration: 'Configuration Center'
+    configuration: 'Configuration Center',
+    llmJudge: 'Smart Judge',
+    monitor: 'Monitor Center',
+    performanceTesting: 'Performance Testing',
+    mcp: 'MCP Console',
+    docs: 'Docs Center'
   },
   menu: {
     // AI Test Case Generation
@@ -69,6 +74,35 @@ export default {
     uiEnvConfig: 'UI Environment Configuration',
     aiModeConfig: 'AI Mode Configuration',
     scheduledTaskConfig: 'Scheduled Task Configuration',
-    difyConfig: 'Dify Configuration'
+    difyConfig: 'Dify Configuration',
+
+    // Smart Judge
+    judgeDashboard: 'Judge Dashboard',
+    judgeSingle: 'Single Judge',
+    judgeBatch: 'Batch Judge',
+    judgeHistory: 'Judge Records',
+    judgeRubrics: 'Rubrics',
+    judgeKnowledgeBase: 'Knowledge Base',
+
+    // Monitor Center
+    monitorDashboard: 'Monitor Dashboard',
+    monitorTargets: 'Targets',
+    monitorChecks: 'Probe History',
+    monitorAlerts: 'Alerts',
+    monitorChannels: 'Channels',
+
+    // Performance Testing
+    perfDashboard: 'Dashboard',
+    perfProjects: 'Projects',
+    perfScenarios: 'Scenarios',
+    perfExecutions: 'Executions',
+    perfComparison: 'Comparison',
+    perfComparisonReports: 'Comparison Reports',
+    perfScheduled: 'Scheduled',
+
+    // MCP
+    mcpConsole: 'MCP Console',
+    // Docs Center
+    docsCenter: 'Docs Center'
   }
 }
