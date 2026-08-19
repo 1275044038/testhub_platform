@@ -17,6 +17,10 @@ import assistantModule from './assistant.js'
 import dataFactoryModule from './data-factory.js'
 import notificationModule from './notification.js'
 import llmJudgeModule from './llm-judge.js'
+import monitorModule from './monitor.js'
+import performanceTestingModule from './performance-testing.js'
+import mcpModule from './mcp.js'
+import docsModule from './docs.js'
 
 export default {
   // 模块化导出
@@ -77,6 +81,18 @@ export default {
 
   // LLM Judge Module
   llmJudge: llmJudgeModule,
+
+  // Monitor Module
+  monitor: monitorModule,
+
+  // Performance Testing Module
+  performanceTesting: performanceTestingModule,
+
+  // MCP Module
+  mcp: mcpModule,
+
+  // Docs Center
+  docs: docsModule.docs,
 
   // Element Plus 语言包
   ...elementEn
