@@ -102,6 +102,14 @@ export default {
     aiEvaluatorDesc: '基于评测师知识库，提供专业软件测试问答',
     configCenter: '配置中心',
     configCenterDesc: '系统环境、AI模型及通知配置',
+    monitorCenter: '监控中心',
+    monitorCenterDesc: '接口可用性监控与多通道实时告警',
+    performanceTesting: '性能测试',
+    performanceTestingDesc: '复用接口资产的一键压测、实时监控与性能基线',
+    mcpConsole: 'MCP 控制台',
+    mcpConsoleDesc: 'MCP 工具调用日志与危险操作待确认审批',
+    docsCenter: '文档中心',
+    docsCenterDesc: '平台使用手册与功能说明文档在线浏览',
 
     // Messages
     featureInDevelopment: '功能正在开发中......',

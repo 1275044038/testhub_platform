@@ -443,7 +443,8 @@ import { useI18n } from 'vue-i18n'
 import {
   Monitor, Folder, Document, Flag, Check, Collection, VideoPlay,
   DataAnalysis, ChatDotRound, DocumentCopy, Link, MagicStick,
-  Odometer, Timer, Setting, AlarmClock, Bell, Aim, Edit, Cpu, ArrowDown, Cellphone, Connection, FolderOpened, Tickets, Plus
+  Odometer, Timer, Setting, AlarmClock, Bell, Aim, Edit, Cpu, ArrowDown, Cellphone, Connection, FolderOpened, Tickets, Plus,
+  SetUp, TrendCharts
 } from '@element-plus/icons-vue'
 import logoSvg from '@/assets/images/logo.svg'
 import logoHomePng from '@/assets/images/logo_home.png'
