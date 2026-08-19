@@ -102,6 +102,14 @@ export default {
     aiEvaluatorDesc: 'Professional software testing Q&A based on evaluator knowledge base',
     configCenter: 'Configuration Center',
     configCenterDesc: 'System environment, AI model and notification configuration',
+    monitorCenter: 'Monitor Center',
+    monitorCenterDesc: 'API availability monitoring with multi-channel realtime alerts',
+    performanceTesting: 'Performance Testing',
+    performanceTestingDesc: 'Reuse API assets for one-click load testing, realtime monitoring and performance baselines',
+    mcpConsole: 'MCP Console',
+    mcpConsoleDesc: 'MCP tool call logs and dangerous action approval',
+    docsCenter: 'Docs Center',
+    docsCenterDesc: 'Browse platform manuals and feature documentation online',
 
     // Messages
     featureInDevelopment: 'Feature is under development......',

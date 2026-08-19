@@ -33,6 +33,22 @@ import UiNotificationLogs from '@/views/ui-automation/notification/NotificationL
 import UiAITesting from '@/views/ui-automation/ai/AITesting.vue'
 import UiAICaseList from '@/views/ui-automation/ai/AICaseList.vue'
 import UiAIExecutionRecords from '@/views/ui-automation/ai/AIExecutionRecords.vue'
+import MonitorDashboard from '@/views/monitor/Dashboard.vue'
+import MonitorCheckLogs from '@/views/monitor/CheckLogs.vue'
+import MonitorAlerts from '@/views/monitor/Alerts.vue'
+import MonitorTargets from '@/views/monitor/MonitorTargets.vue'
+import NotificationChannels from '@/views/monitor/NotificationChannels.vue'
+import PerfIndex from '@/views/performance-testing/index.vue'
+import PerfDashboard from '@/views/performance-testing/Dashboard.vue'
+import PerfProjectManagement from '@/views/performance-testing/ProjectManagement.vue'
+import PerfScenarioList from '@/views/performance-testing/ScenarioList.vue'
+import PerfScenarioEditor from '@/views/performance-testing/ScenarioEditor.vue'
+import PerfExecutionList from '@/views/performance-testing/ExecutionList.vue'
+import PerfExecutionMonitor from '@/views/performance-testing/ExecutionMonitor.vue'
+import PerfExecutionReport from '@/views/performance-testing/ExecutionReport.vue'
+import PerfComparison from '@/views/performance-testing/Comparison.vue'
+import PerfComparisonReports from '@/views/performance-testing/ComparisonReports.vue'
+import PerfScheduledTasks from '@/views/performance-testing/ScheduledTasks.vue'
 
 /** @type {import('vue-router').RouteRecordRaw[]} */
 const routes = [
@@ -555,6 +571,131 @@ const routes = [
                 path: 'reports',
                 name: 'AppReportList',
                 component: () => import('@/views/app-automation/reports/ReportList.vue')
+            }
+        ]
+    },
+    {
+        path: '/monitor',
+        component: Layout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '',
+                redirect: 'dashboard'
+            },
+            {
+                path: 'dashboard',
+                name: 'MonitorDashboard',
+                component: MonitorDashboard
+            },
+            {
+                path: 'checks',
+                name: 'MonitorCheckLogs',
+                component: MonitorCheckLogs
+            },
+            {
+                path: 'alerts',
+                name: 'MonitorAlerts',
+                component: MonitorAlerts
+            },
+            {
+                path: 'targets',
+                name: 'MonitorTargets',
+                component: MonitorTargets
+            },
+            {
+                path: 'channels',
+                name: 'NotificationChannels',
+                component: NotificationChannels
+            }
+        ]
+    },
+    {
+        path: '/performance-testing',
+        component: Layout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '',
+                redirect: 'dashboard'
+            },
+            {
+                path: 'dashboard',
+                name: 'PerfDashboard',
+                component: PerfDashboard
+            },
+            {
+                path: 'projects',
+                name: 'PerfProjects',
+                component: PerfProjectManagement
+            },
+            {
+                path: 'scenarios',
+                name: 'PerfScenarios',
+                component: PerfScenarioList
+            },
+            {
+                path: 'scenarios/:id',
+                name: 'PerfScenarioEditor',
+                component: PerfScenarioEditor
+            },
+            {
+                path: 'executions',
+                name: 'PerfExecutions',
+                component: PerfExecutionList
+            },
+            {
+                path: 'executions/:id',
+                name: 'PerfExecutionReport',
+                component: PerfExecutionReport
+            },
+            {
+                path: 'executions/:id/monitor',
+                name: 'PerfExecutionMonitor',
+                component: PerfExecutionMonitor
+            },
+            {
+                path: 'comparison',
+                name: 'PerfComparison',
+                component: PerfComparison
+            },
+            {
+                path: 'comparison-reports',
+                name: 'PerfComparisonReports',
+                component: PerfComparisonReports
+            },
+            {
+                path: 'scheduled',
+                name: 'PerfScheduled',
+                component: PerfScheduledTasks
+            }
+        ]
+    },
+    {
+        path: '/mcp',
+        component: Layout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '',
+                redirect: 'console'
+            },
+            {
+                path: 'console',
+                name: 'McpConsole',
+                component: () => import('@/views/mcp/McpConsole.vue')
+            }
+        ]
+    },
+    {
+        path: '/docs-center',
+        component: Layout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '',
+                name: 'DocsCenter',
+                component: () => import('@/views/docs-center/DocsCenter.vue')
             }
         ]
     }

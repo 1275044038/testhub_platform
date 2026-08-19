@@ -154,6 +154,42 @@
           <h3>{{ $t('llmJudge.title') }}</h3>
           <p>{{ $t('llmJudge.subtitle') }}</p>
         </div>
+
+        <!-- 性能测试 -->
+        <div class="nav-card" @click="handleNavigate('performance')" role="button" tabindex="0">
+          <div class="card-icon perf-icon">
+            <el-icon><Odometer /></el-icon>
+          </div>
+          <h3>{{ $t('home.performanceTesting') }}</h3>
+          <p>{{ $t('home.performanceTestingDesc') }}</p>
+        </div>
+
+        <!-- 监控中心 -->
+        <div class="nav-card" @click="handleNavigate('monitor')" role="button" tabindex="0">
+          <div class="card-icon monitor-icon">
+            <el-icon><Odometer /></el-icon>
+          </div>
+          <h3>{{ $t('home.monitorCenter') }}</h3>
+          <p>{{ $t('home.monitorCenterDesc') }}</p>
+        </div>
+
+        <!-- MCP 管理端 -->
+        <div class="nav-card" @click="handleNavigate('mcp')" role="button" tabindex="0">
+          <div class="card-icon mcp-icon">
+            <el-icon><Connection /></el-icon>
+          </div>
+          <h3>{{ $t('home.mcpConsole') }}</h3>
+          <p>{{ $t('home.mcpConsoleDesc') }}</p>
+        </div>
+
+        <!-- 文档中心 -->
+        <div class="nav-card" @click="handleNavigate('docs')" role="button" tabindex="0">
+          <div class="card-icon docs-icon">
+            <el-icon><Document /></el-icon>
+          </div>
+          <h3>{{ $t('home.docsCenter') }}</h3>
+          <p>{{ $t('home.docsCenterDesc') }}</p>
+        </div>
       </div>
     </div>
 
@@ -189,7 +225,7 @@ import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores/app'
 import { track } from '@/utils/tracker'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { MagicStick, Link, Monitor, DataLine, Cpu, Setting, ChatDotRound, UserFilled, ArrowDown, Cellphone, Tickets, Select } from '@element-plus/icons-vue'
+import { MagicStick, Link, Monitor, DataLine, Cpu, Setting, ChatDotRound, UserFilled, ArrowDown, Cellphone, Tickets, Select, Odometer, Connection, Document } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -282,7 +318,11 @@ const handleNavigate = (type) => {
     'assistant': '/ai-generation/assistant',
     'config': '/configuration/ai-model',
     'judge': '/llm-judge/dashboard',
-    'data': '/data-factory'
+    'data': '/data-factory',
+    'performance': '/performance-testing/dashboard',
+    'monitor': '/monitor/dashboard',
+    'mcp': '/mcp/console',
+    'docs': '/docs-center'
   }
 
   if (routes[type]) {
@@ -551,6 +591,26 @@ const handleNavigate = (type) => {
   &.assistant-icon {
     background: #fff7e6;
     color: #fa8c16;
+  }
+
+  &.monitor-icon {
+    background: #fff1f0;
+    color: #f5222d;
+  }
+
+  &.mcp-icon {
+    background: #fff0f6;
+    color: #eb2f96;
+  }
+
+  &.docs-icon {
+    background: #f0f5ff;
+    color: #2f54eb;
+  }
+
+  &.perf-icon {
+    background: #e6fffb;
+    color: #13c2c2;
   }
 }
 

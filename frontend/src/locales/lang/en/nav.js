@@ -13,7 +13,11 @@ export default {
     appAutomation: 'APP Automation',
     aiIntelligentMode: 'AI Intelligent Mode',
     configuration: 'Configuration Center',
-    llmJudge: 'Smart Judge'
+    llmJudge: 'Smart Judge',
+    monitor: 'Monitor Center',
+    performanceTesting: 'Performance Testing',
+    mcp: 'MCP Console',
+    docs: 'Docs Center'
   },
   menu: {
     // AI Test Case Generation
@@ -78,6 +82,27 @@ export default {
     judgeBatch: 'Batch Judge',
     judgeHistory: 'Judge Records',
     judgeRubrics: 'Rubrics',
-    judgeKnowledgeBase: 'Knowledge Base'
+    judgeKnowledgeBase: 'Knowledge Base',
+
+    // Monitor Center
+    monitorDashboard: 'Monitor Dashboard',
+    monitorTargets: 'Targets',
+    monitorChecks: 'Probe History',
+    monitorAlerts: 'Alerts',
+    monitorChannels: 'Channels',
+
+    // Performance Testing
+    perfDashboard: 'Dashboard',
+    perfProjects: 'Projects',
+    perfScenarios: 'Scenarios',
+    perfExecutions: 'Executions',
+    perfComparison: 'Comparison',
+    perfComparisonReports: 'Comparison Reports',
+    perfScheduled: 'Scheduled',
+
+    // MCP
+    mcpConsole: 'MCP Console',
+    // Docs Center
+    docsCenter: 'Docs Center'
   }
 }

@@ -299,6 +299,78 @@
               <span>{{ $t('menu.judgeRubrics') }}</span>
             </el-menu-item>
           </template>
+
+          <!-- 监控中心模块菜单 -->
+          <template v-else-if="currentModule === 'monitor'">
+            <el-menu-item index="/monitor/dashboard">
+              <el-icon><Odometer /></el-icon>
+              <span>{{ $t('menu.monitorDashboard') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/monitor/checks">
+              <el-icon><Timer /></el-icon>
+              <span>{{ $t('menu.monitorChecks') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/monitor/alerts">
+              <el-icon><Bell /></el-icon>
+              <span>{{ $t('menu.monitorAlerts') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/monitor/targets">
+              <el-icon><Monitor /></el-icon>
+              <span>{{ $t('menu.monitorTargets') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/monitor/channels">
+              <el-icon><Connection /></el-icon>
+              <span>{{ $t('menu.monitorChannels') }}</span>
+            </el-menu-item>
+          </template>
+
+          <!-- 性能测试模块菜单 -->
+          <template v-else-if="currentModule === 'performance-testing'">
+            <el-menu-item index="/performance-testing/dashboard">
+              <el-icon><Odometer /></el-icon>
+              <span>{{ $t('menu.perfDashboard') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/performance-testing/projects">
+              <el-icon><Folder /></el-icon>
+              <span>{{ $t('menu.perfProjects') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/performance-testing/scenarios">
+              <el-icon><SetUp /></el-icon>
+              <span>{{ $t('menu.perfScenarios') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/performance-testing/executions">
+              <el-icon><VideoPlay /></el-icon>
+              <span>{{ $t('menu.perfExecutions') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/performance-testing/comparison">
+              <el-icon><TrendCharts /></el-icon>
+              <span>{{ $t('menu.perfComparison') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/performance-testing/comparison-reports">
+              <el-icon><Document /></el-icon>
+              <span>{{ $t('menu.perfComparisonReports') }}</span>
+            </el-menu-item>
+            <el-menu-item index="/performance-testing/scheduled">
+              <el-icon><Timer /></el-icon>
+              <span>{{ $t('menu.perfScheduled') }}</span>
+            </el-menu-item>
+          </template>
+
+          <!-- MCP 管理端模块菜单 -->
+          <template v-else-if="currentModule === 'mcp'">
+            <el-menu-item index="/mcp/console">
+              <el-icon><Connection /></el-icon>
+              <span>{{ $t('menu.mcpConsole') }}</span>
+            </el-menu-item>
+          </template>
+
+          <!-- 文档中心模块菜单 -->
+          <template v-else-if="currentModule === 'docs'">
+            <el-menu-item index="/docs-center">
+              <el-icon><Document /></el-icon>
+              <span>{{ $t('menu.docsCenter') }}</span>
+            </el-menu-item>
+          </template>
         </el-menu>
       </el-aside>
 
@@ -371,7 +443,8 @@ import { useI18n } from 'vue-i18n'
 import {
   Monitor, Folder, Document, Flag, Check, Collection, VideoPlay,
   DataAnalysis, ChatDotRound, DocumentCopy, Link, MagicStick,
-  Odometer, Timer, Setting, AlarmClock, Bell, Aim, Edit, Cpu, ArrowDown, Cellphone, Connection, FolderOpened, Tickets, Plus
+  Odometer, Timer, Setting, AlarmClock, Bell, Aim, Edit, Cpu, ArrowDown, Cellphone, Connection, FolderOpened, Tickets, Plus,
+  SetUp, TrendCharts
 } from '@element-plus/icons-vue'
 import logoSvg from '@/assets/images/logo.svg'
 import logoHomePng from '@/assets/images/logo_home.png'
@@ -407,6 +480,10 @@ const currentModule = computed(() => {
   if (route.path.startsWith('/ai-intelligent-mode')) return 'ai-intelligent-mode'
   if (route.path.startsWith('/configuration')) return 'configuration'
   if (route.path.startsWith('/llm-judge')) return 'llm-judge'
+  if (route.path.startsWith('/monitor')) return 'monitor'
+  if (route.path.startsWith('/performance-testing')) return 'performance-testing'
+  if (route.path.startsWith('/mcp')) return 'mcp'
+  if (route.path.startsWith('/docs-center')) return 'docs'
   return ''
 })
 
@@ -419,7 +496,11 @@ const moduleName = computed(() => {
     'app-automation': t('modules.appAutomation'),
     'ai-intelligent-mode': t('modules.aiIntelligentMode'),
     'configuration': t('modules.configuration'),
-    'llm-judge': t('modules.llmJudge')
+    'llm-judge': t('modules.llmJudge'),
+    'monitor': t('modules.monitor'),
+    'performance-testing': t('modules.performanceTesting'),
+    'mcp': t('modules.mcp'),
+    'docs': t('modules.docs')
   }
   return map[currentModule.value] || ''
 })
