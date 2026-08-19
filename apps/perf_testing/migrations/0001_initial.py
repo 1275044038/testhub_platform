@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('api_testing', '0007_add_history_executed_at_idx'),
+        ('api_testing', '0001_initial'),
     ]
 
     operations = [
