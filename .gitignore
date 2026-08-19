@@ -8,6 +8,7 @@ venv_py310/
 .workbuddy
 .vscode/
 .trae/
+.hermes
 __pycache__/
 .DS_Store
 .pytest_cache
