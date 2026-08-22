@@ -42,9 +42,17 @@ python manage.py download_webdrivers
 
 # Load APP automation UI component pack from YAML (add --overwrite to replace)
 python manage.py load_component_pack
+
+# Initialize LLM Judge built-in rubric templates (finance / QA / customer service)
+# into the database so they appear in the "Clone from preset" dropdown.
+python manage.py init_judge_rubrics
+# Overwrite existing built-in rubrics with the latest YAML content:
+python manage.py init_judge_rubrics --overwrite
+# Import and set a specific domain as the system default (finance / qa / customer_service):
+python manage.py init_judge_rubrics --default qa
 ```
 
-All management commands live in `apps/core/management/commands/`.
+All management commands live in `apps/core/management/commands/` and `apps/*/management/commands/`.
 
 ### Frontend (Vue 3 + Vite)
 

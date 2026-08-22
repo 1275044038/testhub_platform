@@ -13,7 +13,7 @@
 
 ## 📖 项目简介
 
-TestHub 是一个功能强大的智能测试管理平台，集成了 **AI 需求分析**、**测试用例管理**、**API 测试**、**UI 自动化测试** 等多个模块，旨在提升测试效率和质量。平台采用 Django + Vue3 技术栈，提供现代化的用户界面和丰富的功能特性。
+TestHub 是一个功能强大的智能测试管理平台，集成了 **AI 用例生成**、**API 测试**、**UI 自动化测试** 、**APP 测试**、**AI 自动化测试**、**性能测试**、**数据工厂**等多个模块，旨在助力测试人全面提效。平台采用 Django + Vue3 技术栈，提供现代化的用户界面和丰富的功能特性。
 
 ## ✨ 核心特性
 
@@ -291,20 +291,6 @@ python manage.py runserver
 celery -A backend worker -l info
 ```
 
-### 数据工厂模块初始化
-
-数据工厂模块需要创建数据库表：
-
-```bash
-# 创建数据工厂表
-python manage.py makemigrations data_factory
-python manage.py migrate data_factory
-```
-
-**详细使用说明**：请查看 [数据工厂使用说明.md](./docs/数据工厂使用说明.md) 获取完整的功能介绍、使用技巧和最佳实践。
-
-**快速开始指南**：请查看 [数据工厂快速开始.md](./docs/数据工厂快速开始.md) 快速上手数据工厂功能。
-
 ### 前端部署
 
 1. **安装依赖**
@@ -341,6 +327,12 @@ npm run build
 - **[WebDriver驱动管理优化说明](./docs/WebDriver驱动管理优化说明.md)**: WebDriver 驱动管理优化说明
 - **[用例评审管理功能说明](./docs/用例评审管理功能说明.md)**: 用例评审管理功能说明
 - **[问题排查指南](./docs/问题排查指南.md)**: 常见问题排查指南
+
+在进行 Web、API 及自动化测试时，不同地区的网络环境可能带来不同的访问体验。IPWO住宅代理，支持多地区网络环境配置，可用于海外网站访问、区域测试及自动化测试场景。
+
+<u>[IPWO](https://www.ipwo.net/?ref=githubplatform)</u>为 TestHub 用户提供更多测试环境选择，让跨地区测试更加灵活。覆盖全球195+地区动静态IP资源，支持免费测试入口，90折扣码：0204
+![img.png](static_files/img.png)
+
 
 ## 📚 核心功能模块说明
 
@@ -673,12 +665,15 @@ SIMPLE_JWT = {
 
 ## 📝 许可证
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+本项目采用 GPL 3.0 许可证 - 详见 [LICENSE](LICENSE) 文件
 
 ## 📧 联系方式
 
-如有问题或建议，欢迎通过 Issue 反馈。
+如有问题或建议，欢迎通过 Issue 反馈，也可以扫码添加作者，加入官方交流群。
+![img_1.png](static_files/img_1.png)
 
+<u>[TestHub 官网](https://testhub.aisky.cloud)</u>
+![img_2.png](static_files/img_2.png)
 ---
 
 <div align="center">
