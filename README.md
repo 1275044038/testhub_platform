@@ -9,11 +9,6 @@
 [![Vue](https://img.shields.io/badge/Vue-3.3-brightgreen.svg)](https://vuejs.org/)
 [![License](https://img.shields.io/badge/License-GPL_v3-blue.svg)](LICENSE)
 
-在进行 Web、API 及自动化测试时，不同地区的网络环境可能带来不同的访问体验。IPWO住宅代理，支持多地区网络环境配置，可用于海外网站访问、区域测试及自动化测试场景。
-
-<u>[IPWO](https://www.ipwo.net/?ref=githubplatform)</u>为 TestHub 用户提供更多测试环境选择，让跨地区测试更加灵活。覆盖全球195+地区动静态IP资源，支持免费测试入口，90折扣码：0204
-![img.png](static_files/img.png)
-
 </div>
 
 ## 📖 项目简介
@@ -79,6 +74,11 @@ TestHub 是一个 AI 驱动的全栈测试管理平台，覆盖测试全流程�
 - Vue 3 + Vite + Element Plus
 - Pinia 状态管理、Vue Router、Axios
 - ECharts 可视化、Monaco Editor、vue-i18n 国际化
+
+在进行 Web、API 及自动化测试时，不同地区的网络环境可能带来不同的访问体验。IPWO住宅代理，支持多地区网络环境配置，可用于海外网站访问、区域测试及自动化测试场景。
+
+<u>[IPWO](https://www.ipwo.net/?ref=githubplatform)</u>为 TestHub 用户提供更多测试环境选择，让跨地区测试更加灵活。覆盖全球195+地区动静态IP资源，支持免费测试入口，90折扣码：0204
+![img.png](static_files/img.png)
 
 ## 📁 项目结构
 
